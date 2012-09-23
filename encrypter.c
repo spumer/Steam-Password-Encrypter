@@ -1,16 +1,16 @@
-#include <gmp.h> // работа с большими числами
+#include <gmp.h> // СЂР°Р±РѕС‚Р° СЃ Р±РѕР»СЊС€РёРјРё С‡РёСЃР»Р°РјРё
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h> // for uint8_t
-#include <time.h> // для генерации псевдослучайных чисел
+#include <time.h> // РґР»СЏ РіРµРЅРµСЂР°С†РёРё РїСЃРµРІРґРѕСЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
 
-// кодирование с помощью base64
+// РєРѕРґРёСЂРѕРІР°РЅРёРµ СЃ РїРѕРјРѕС‰СЊСЋ base64
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
-// Определяет позицию символа А в строке IN
+// РћРїСЂРµРґРµР»СЏРµС‚ РїРѕР·РёС†РёСЋ СЃРёРјРІРѕР»Р° Рђ РІ СЃС‚СЂРѕРєРµ IN
 //#define INDEX_OF(A, IN) (strchr(IN, A) - IN)
 
 void pkcs1pad2(const char *data, int keysize, mpz_t *to);
@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 
 void pkcs1pad2(const char *data, int keysize, mpz_t *to)
 {
-	// Переводим строку символов в массив
+	// РџРµСЂРµРІРѕРґРёРј СЃС‚СЂРѕРєСѓ СЃРёРјРІРѕР»РѕРІ РІ РјР°СЃСЃРёРІ
 	unsigned char *buffer = (unsigned char *)malloc(keysize*sizeof(unsigned char));
 	int len = strlen(data) - 1;
 	int abs_len = keysize;
@@ -58,7 +58,7 @@ void pkcs1pad2(const char *data, int keysize, mpz_t *to)
 		buffer[--keysize] = (rand() % 254) + 1;
 	buffer[--keysize] = 2;
 	
-	// Импортируем массив как вид записи большого числа.
+	// РјРїРѕСЂС‚РёСЂСѓРµРј РјР°СЃСЃРёРІ РєР°Рє РІРёРґ Р·Р°РїРёСЃРё Р±РѕР»СЊС€РѕРіРѕ С‡РёСЃР»Р°.
 	mpz_import(*to, abs_len, 1, sizeof(unsigned char), 0, 0, buffer);
 	free(buffer);
 }
