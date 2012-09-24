@@ -54,9 +54,10 @@ void pkcs1pad2(const char *data, int keysize, mpz_t *to)
 		buffer[--keysize] = (unsigned char)data[len--];
 	buffer[--keysize] = 0;
 	srand( time(NULL) );
-	while(keysize > 1)
+	while(keysize > 2)
 		buffer[--keysize] = (rand() % 254) + 1;
 	buffer[--keysize] = 2;
+	buffer[--keysize] = 0;
 	
 	// мпортируем массив как вид записи большого числа.
 	mpz_import(*to, abs_len, 1, sizeof(unsigned char), 0, 0, buffer);
